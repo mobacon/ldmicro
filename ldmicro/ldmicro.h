@@ -100,6 +100,7 @@ typedef signed long SDWORD;
 #define MNU_MAKE_SET_ONLY       0x44
 #define MNU_MAKE_RESET_ONLY     0x45
 #define MNU_INSERT_PWL          0x46
+#define MNU_INSERT_STRING       0x47
 
 #define MNU_MCU_SETTINGS        0x50
 #define MNU_PROCESSOR_0         0xa0
@@ -174,6 +175,7 @@ typedef signed long SDWORD;
 #define ELEM_FORMATTED_STRING   0x2f
 #define ELEM_PERSIST            0x30
 #define ELEM_PIECEWISE_LINEAR   0x31
+#define ELEM_STRING             0x32
 
 #define CASE_LEAF \
         case ELEM_PLACEHOLDER: \
@@ -210,6 +212,7 @@ typedef signed long SDWORD;
         case ELEM_SHIFT_REGISTER: \
         case ELEM_LOOK_UP_TABLE: \
         case ELEM_PIECEWISE_LINEAR: \
+        case ELEM_STRING: \
         case ELEM_FORMATTED_STRING: \
         case ELEM_PERSIST:
 
@@ -622,6 +625,7 @@ void AddMasterRelay(void);
 void AddLookUpTable(void);
 void AddPiecewiseLinear(void);
 void AddFormattedString(void);
+void AddString(void);
 void DeleteSelectedFromProgram(void);
 void DeleteSelectedRung(void);
 void InsertRung(BOOL afterCursor);
@@ -673,6 +677,7 @@ void ShowCmpDialog(int which, char *op1, char *op2);
 void ShowMathDialog(int which, char *dest, char *op1, char *op2);
 void ShowShiftRegisterDialog(char *name, int *stages);
 void ShowFormattedStringDialog(char *var, char *string);
+void ShowStringDialog(char *var, char *string);
 void ShowLookUpTableDialog(ElemLeaf *l);
 void ShowPiecewiseLinearDialog(ElemLeaf *l);
 void ShowResetDialog(char *name);
