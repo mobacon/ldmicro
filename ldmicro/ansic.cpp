@@ -197,6 +197,7 @@ static void GenerateDeclarations(FILE *f)
             case INT_EEPROM_BUSY_CHECK:
             case INT_EEPROM_READ:
             case INT_EEPROM_WRITE:
+            case INT_WRITE_STRING:
                 break;
 
             default:
@@ -335,6 +336,7 @@ static void GenerateAnsiC(FILE *f)
             case INT_SET_PWM:
             case INT_UART_RECV:
             case INT_UART_SEND:
+            case INT_WRITE_STRING:
                 Error(_("ANSI C target does not support peripherals "
                     "(UART, PWM, ADC, EEPROM). Skipping that instruction."));
                 break;
