@@ -800,6 +800,25 @@ McuIoInfo SupportedMcus[NUM_SUPPORTED_MCUS] = {
         ISA_INTERPRETED,
         FALSE,
         0x00
+    },
+    {
+        "Netzer Byte Code",
+        'R',
+        { 0x00 },
+        { 0x00 },
+        { 0x00 },
+        0,
+        { { 0x00, 0 } },
+        NULL,
+        0,
+        NULL,
+        0,
+        0,
+        { 0, 0 },
+        0,
+        ISA_NETZER,
+        FALSE,
+        0x00
     }
 };
 

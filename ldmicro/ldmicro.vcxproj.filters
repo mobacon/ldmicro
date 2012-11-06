@@ -99,6 +99,9 @@
     <ClCompile Include="undoredo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="netzer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\win32\freeze.h">

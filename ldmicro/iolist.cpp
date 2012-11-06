@@ -615,6 +615,11 @@ void ShowIoDialog(int item)
         return;
     }
 
+    if(Prog.mcu->whichIsa == ISA_NETZER) {
+        Error(_("Can't specify I/O assignment for Netzer!"));
+        return;
+    }
+
     if(Prog.io.assignment[item].name[0] != 'X' && 
        Prog.io.assignment[item].name[0] != 'Y' &&
        Prog.io.assignment[item].name[0] != 'A')
@@ -774,7 +779,8 @@ void IoListProc(NMHDR *h)
                     // Don't confuse people by displaying bogus pin assignments
                     // for the C target.
                     if(Prog.mcu && (Prog.mcu->whichIsa == ISA_ANSIC ||
-                                    Prog.mcu->whichIsa == ISA_INTERPRETED) )
+                                    Prog.mcu->whichIsa == ISA_INTERPRETED ||
+                                    Prog.mcu->whichIsa == ISA_NETZER) )
                     {
                         strcpy(i->item.pszText, "");
                         break;

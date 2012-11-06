@@ -153,7 +153,8 @@ static void CompileProgram(BOOL compileAs)
         if(Prog.mcu && Prog.mcu->whichIsa == ISA_ANSIC) {
             ofn.lpstrFilter = C_PATTERN;
             ofn.lpstrDefExt = "c";
-        } else if(Prog.mcu && Prog.mcu->whichIsa == ISA_INTERPRETED) {
+        } else if(Prog.mcu && (Prog.mcu->whichIsa == ISA_INTERPRETED || 
+                               Prog.mcu->whichIsa == ISA_NETZER)) {
             ofn.lpstrFilter = INTERPRETED_PATTERN;
             ofn.lpstrDefExt = "int";
         } else {
@@ -193,6 +194,7 @@ static void CompileProgram(BOOL compileAs)
         case ISA_PIC16:         CompilePic16(CurrentCompileFile); break;
         case ISA_ANSIC:         CompileAnsiC(CurrentCompileFile); break;
         case ISA_INTERPRETED:   CompileInterpreted(CurrentCompileFile); break;
+        case ISA_NETZER:        CompileNetzer(CurrentCompileFile); break;
 
         default: oops();
     }
@@ -546,7 +548,7 @@ cmp:
             break;
 
         case MNU_MCU_SETTINGS:
-            CHANGING_PROGRAM(ShowConfDialog());
+			CHANGING_PROGRAM(ShowConfDialog());
             break;
 
         case MNU_SIMULATION_MODE:

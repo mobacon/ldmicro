@@ -104,7 +104,8 @@ static void MakeControls(void)
     }
 
     if(Prog.mcu && (Prog.mcu->whichIsa == ISA_ANSIC ||
-        Prog.mcu->whichIsa == ISA_INTERPRETED)) 
+        Prog.mcu->whichIsa == ISA_INTERPRETED ||
+        Prog.mcu->whichIsa == ISA_NETZER)) 
     {
         EnableWindow(CrystalTextbox, FALSE);
         EnableWindow(textLabel2, FALSE);

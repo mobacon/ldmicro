@@ -466,6 +466,7 @@ typedef struct McuAdcPinInfoTag {
 #define ISA_PIC16           0x01
 #define ISA_ANSIC           0x02
 #define ISA_INTERPRETED     0x03
+#define ISA_NETZER          0x04
 
 #define MAX_IO_PORTS        10
 #define MAX_RAM_SECTIONS    5
@@ -496,7 +497,7 @@ typedef struct McuIoInfoTag {
     DWORD            configurationWord;
 } McuIoInfo;
 
-#define NUM_SUPPORTED_MCUS 15
+#define NUM_SUPPORTED_MCUS 16
 
 
 //-----------------------------------------------
@@ -751,7 +752,11 @@ void CompilePic16(char *outFile);
 void CompileAvr(char *outFile);
 // ansic.cpp
 void CompileAnsiC(char *outFile);
-// interpreted.c
+// interpreted.cpp
 void CompileInterpreted(char *outFile);
+// netzer.cpp
+void CompileNetzer(char *outFile);
+
+
 
 #endif

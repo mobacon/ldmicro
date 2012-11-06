@@ -571,7 +571,8 @@ void RefreshControlsToSettings(void)
     SendMessage(StatusBar, SB_SETTEXT, 1, (LPARAM)buf);
 
     if(Prog.mcu && (Prog.mcu->whichIsa == ISA_ANSIC ||
-        Prog.mcu->whichIsa == ISA_INTERPRETED))
+       Prog.mcu->whichIsa == ISA_INTERPRETED ||
+       Prog.mcu->whichIsa == ISA_NETZER))
     {
         strcpy(buf, "");
     } else {

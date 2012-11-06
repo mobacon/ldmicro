@@ -32,7 +32,8 @@ LDOBJS   = $(OBJDIR)\ldmicro.obj \
            $(OBJDIR)\ansic.obj \
            $(OBJDIR)\interpreted.obj \
            $(OBJDIR)\pic16.obj \
-           $(OBJDIR)\avr.obj
+           $(OBJDIR)\avr.obj \
+           $(OBJDIR)\netzer.obj
 
 HELPOBJ  = $(OBJDIR)\helptext.obj
 
