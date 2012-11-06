@@ -47,6 +47,8 @@
 #define INT_EEPROM_READ                         16
 #define INT_EEPROM_WRITE                        17
 
+#define INT_WRITE_STRING                        18
+
 #define INT_IF_GROUP(x) (((x) >= 50) && ((x) < 60))
 #define INT_IF_BIT_SET                          50
 #define INT_IF_BIT_CLEAR                        51
