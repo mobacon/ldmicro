@@ -43,6 +43,7 @@ static HWND         StatusBar;
 static HMENU        FileMenu;
 static HMENU        EditMenu;
 static HMENU        InstructionMenu;
+static HMENU        SpecialInstructionMenu;
 static HMENU        ProcessorMenu;
 static HMENU        SimulateMenu;
 static HMENU        TopMenu;
@@ -320,19 +321,6 @@ HMENU MakeMainWindowMenus(void)
         _("Insert Look-Up Table"));
     AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_PWL,
         _("Insert Piecewise Linear"));
-    AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_FMTD_STR,
-        _("Insert Formatted String Over UART"));
-    AppendMenu(InstructionMenu, MF_SEPARATOR, 0, NULL);
-    AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_UART_SEND,
-        _("Insert &UART Send"));
-    AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_UART_RECV,
-        _("Insert &UART Receive"));
-    AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_SET_PWM,
-        _("Insert Set PWM Output"));
-    AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_READ_ADC,
-        _("Insert A/D Converter Read\tP"));
-    AppendMenu(InstructionMenu, MF_STRING, MNU_INSERT_PERSIST,
-        _("Insert Make Persistent"));
     AppendMenu(InstructionMenu, MF_SEPARATOR, 0, NULL);
     AppendMenu(InstructionMenu, MF_STRING, MNU_MAKE_NORMAL,
         _("Make Norm&al\tA"));
@@ -342,6 +330,21 @@ HMENU MakeMainWindowMenus(void)
         _("Make &Set-Only\tS"));
     AppendMenu(InstructionMenu, MF_STRING, MNU_MAKE_RESET_ONLY,
         _("Make &Reset-Only\tR"));
+
+    SpecialInstructionMenu = CreatePopupMenu();
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_FMTD_STR,
+        _("Insert Formatted String Over UART"));
+	AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_UART_SEND,
+        _("Insert &UART Send"));
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_UART_RECV,
+        _("Insert &UART Receive"));
+    AppendMenu(SpecialInstructionMenu, MF_SEPARATOR, 0, NULL);
+	AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_SET_PWM,
+        _("Insert Set PWM Output"));
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_READ_ADC,
+        _("Insert A/D Converter Read\tP"));
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_PERSIST,
+        _("Insert Make Persistent"));
 
     settings = CreatePopupMenu();
     AppendMenu(settings, MF_STRING, MNU_MCU_SETTINGS, _("&MCU Parameters..."));
@@ -380,6 +383,8 @@ HMENU MakeMainWindowMenus(void)
         _("&Settings"));
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)InstructionMenu,
         _("&Instruction"));
+    AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)SpecialInstructionMenu,
+        _("&Special"));
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)SimulateMenu,
         _("Si&mulate"));
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)compile, 
