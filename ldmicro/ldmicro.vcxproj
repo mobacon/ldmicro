@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BBB0E4EC-B3BA-4E55-95FB-E06EE61CA2BC}</ProjectGuid>
+    <RootNamespace>ldmicro</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command>perl txt2c.pl &gt; helptext.cpp</Command>
+      <Message>Prepare the helptext module.</Message>
+    </PreBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+      <Inputs>%(Inputs)</Inputs>
+      <Outputs>%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <AdditionalOptions>-I..\common\win32 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x400;ISOLATION_AWARE_ENABLED;_WIN32_IE=0x400;WIN32_LEAN_AND_MEAN;WIN32;LDLANG_EN;_DEBUG</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>comctl32.lib %(AdditionalOptions)</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AllowIsolation>true</AllowIsolation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>-I..\common\win32 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x400;ISOLATION_AWARE_ENABLED;_WIN32_IE=0x400;WIN32_LEAN_AND_MEAN;WIN32;LDLANG_EN</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PreBuildEvent>
+      <Command>perl txt2c.pl &gt; helptext.cpp</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Prepare the helptext module.</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ansic.cpp" />
+    <ClCompile Include="avr.cpp" />
+    <ClCompile Include="circuit.cpp" />
+    <ClCompile Include="coildialog.cpp" />
+    <ClCompile Include="commentdialog.cpp" />
+    <ClCompile Include="compilecommon.cpp" />
+    <ClCompile Include="confdialog.cpp" />
+    <ClCompile Include="contactsdialog.cpp" />
+    <ClCompile Include="draw.cpp" />
+    <ClCompile Include="draw_outputdev.cpp" />
+    <ClCompile Include="..\common\win32\freeze.cpp" />
+    <ClCompile Include="helpdialog.cpp" />
+    <ClCompile Include="helptext.cpp" />
+    <ClCompile Include="intcode.cpp" />
+    <ClCompile Include="interpreted.cpp" />
+    <ClCompile Include="iolist.cpp" />
+    <ClCompile Include="lang.cpp" />
+    <ClCompile Include="ldmicro.cpp" />
+    <ClCompile Include="loadsave.cpp" />
+    <ClCompile Include="lutdialog.cpp" />
+    <ClCompile Include="maincontrols.cpp" />
+    <ClCompile Include="miscutil.cpp" />
+    <ClCompile Include="pic16.cpp" />
+    <ClCompile Include="resetdialog.cpp" />
+    <ClCompile Include="schematic.cpp" />
+    <ClCompile Include="simpledialog.cpp" />
+    <ClCompile Include="simulate.cpp" />
+    <ClCompile Include="undoredo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\win32\freeze.h" />
+    <ClInclude Include="intcode.h" />
+    <ClInclude Include="ldmicro.h" />
+    <ClInclude Include="mcutable.h" />
+    <ClInclude Include="netzer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ldmicro.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ldmicro.rc">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/D_CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_WIN32_WINNT=0x400;ISOLATION_AWARE_ENABLED;_WIN32_IE=0x400;WIN32_LEAN_AND_MEAN;WIN32;LDLANG_EN;_CRT_SECURE_NO_WARNINGS;_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_WIN32_WINNT=0x400;ISOLATION_AWARE_ENABLED;_WIN32_IE=0x400;WIN32_LEAN_AND_MEAN;WIN32;LDLANG_EN;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
