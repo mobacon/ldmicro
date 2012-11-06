@@ -827,6 +827,7 @@ void NewProgram(void)
 
     Prog.numRungs = 1;
     Prog.rungs[0] = AllocEmptyRung();
+    Prog.mcu = &SupportedMcus[NUM_SUPPORTED_MCUS-1];
 }
 
 //-----------------------------------------------------------------------------
