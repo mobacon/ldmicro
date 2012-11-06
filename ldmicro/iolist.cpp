@@ -29,6 +29,7 @@
 #include <commctrl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "ldmicro.h"
 
@@ -53,6 +54,8 @@ static HWND AnalogSliderMain;
 static HWND AnalogSliderTrackbar;
 static BOOL AnalogSliderDone;
 static BOOL AnalogSliderCancel;
+
+static bool CheckForConstant(char * String);
 
 
 //-----------------------------------------------------------------------------
@@ -177,6 +180,10 @@ static void ExtractNamesFromCircuit(int which, void *any)
             break;
 
         case ELEM_MOVE:
+            if (CheckForConstant(l->d.move.src) == FALSE)
+            {
+                AppendIo(l->d.move.src, IO_TYPE_GENERAL);
+            }
             AppendIo(l->d.move.dest, IO_TYPE_GENERAL);
             break;
 
@@ -184,9 +191,16 @@ static void ExtractNamesFromCircuit(int which, void *any)
         case ELEM_SUB:
         case ELEM_MUL:
         case ELEM_DIV:
+            if (CheckForConstant(l->d.math.op1) == FALSE)
+            {
+                AppendIo(l->d.math.op1, IO_TYPE_GENERAL);
+            }
+            if (CheckForConstant(l->d.math.op2) == FALSE)
+            {
+                AppendIo(l->d.math.op2, IO_TYPE_GENERAL);
+            }
             AppendIo(l->d.math.dest, IO_TYPE_GENERAL);
             break;
-
         case ELEM_FORMATTED_STRING:
             if(strlen(l->d.fmtdStr.var) > 0) {
                 AppendIo(l->d.fmtdStr.var, IO_TYPE_UART_TX);
@@ -885,3 +899,21 @@ void IoListProc(NMHDR *h)
         }
     }
 }
+
+//-----------------------------------------------------------------------------
+// The function checks if a given string is numeric.
+
+static bool CheckForConstant(char * String)
+{
+    errno = 0;
+    char* p = String;
+    unsigned long test = strtol(String, &p, 10);
+    if ((errno != 0) || (String == p) || (*p != 0))
+    {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+//-----------------------------------------------------------------------------
