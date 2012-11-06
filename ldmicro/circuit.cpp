@@ -313,7 +313,7 @@ void AddString(void)
 
     ElemLeaf *t = AllocLeaf();
     strcpy(t->d.fmtdStr.var, "var");
-    strcpy(t->d.fmtdStr.string, "value: \\3\\r\\n");
+    strcpy(t->d.fmtdStr.string, "string");
     AddLeaf(ELEM_STRING, t);
 }
 void AddLookUpTable(void)
