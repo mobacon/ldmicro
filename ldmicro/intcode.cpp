@@ -666,6 +666,12 @@ static void IntCodeFromCircuit(int which, void *any, char *stateInOut)
             break;
         }
 
+        case ELEM_STRING: {
+            Op(INT_IF_BIT_SET, stateInOut);
+            Op(INT_WRITE_STRING, l->d.move.src, l->d.move.dest);
+            break;
+        }
+
         // These four are highly processor-dependent; the int code op does
         // most of the highly specific work
         {

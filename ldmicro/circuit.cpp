@@ -307,6 +307,15 @@ void AddFormattedString(void)
     strcpy(t->d.fmtdStr.string, "value: \\3\\r\\n");
     AddLeaf(ELEM_FORMATTED_STRING, t);
 }
+void AddString(void)
+{
+    if(!CanInsertOther) return;
+
+    ElemLeaf *t = AllocLeaf();
+    strcpy(t->d.fmtdStr.var, "var");
+    strcpy(t->d.fmtdStr.string, "value: \\3\\r\\n");
+    AddLeaf(ELEM_STRING, t);
+}
 void AddLookUpTable(void)
 {
     if(!CanInsertEnd) return;

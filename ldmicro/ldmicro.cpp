@@ -443,6 +443,10 @@ static void ProcessMenu(int code)
             CHANGING_PROGRAM(AddFormattedString());
             break;
 
+        case MNU_INSERT_STRING:
+            CHANGING_PROGRAM(AddString());
+            break;
+
         case MNU_INSERT_OSR:
             CHANGING_PROGRAM(AddEmpty(ELEM_ONE_SHOT_RISING));
             break;

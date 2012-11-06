@@ -179,6 +179,30 @@ static BOOL LoadLeafFromFile(char *line, void **any, int *which)
         l->d.fmtdStr.string[i] = '\0';
 
         *which = ELEM_FORMATTED_STRING;
+    } else if(sscanf(line, "STRING %s %d", l->d.fmtdStr.var, 
+        &x)==2)
+    {
+        if(strcmp(l->d.fmtdStr.var, "(none)")==0) {
+            strcpy(l->d.fmtdStr.var, "");
+        }
+
+        char *p = line;
+        int i;
+        for(i = 0; i < 3; i++) {
+            while(!isspace(*p)) p++;
+            while( isspace(*p)) p++;
+        }
+        for(i = 0; i < x; i++) {
+            l->d.fmtdStr.string[i] = atoi(p);
+            if(l->d.fmtdStr.string[i] < 32) {
+                l->d.fmtdStr.string[i] = 'X';
+            }
+            while(!isspace(*p) && *p) p++;
+            while( isspace(*p) && *p) p++;
+        }
+        l->d.fmtdStr.string[i] = '\0';
+
+        *which = ELEM_STRING;
     } else if(sscanf(line, "LOOK_UP_TABLE %s %s %d %d", l->d.lookUpTable.dest,
         l->d.lookUpTable.index, &(l->d.lookUpTable.count),
         &(l->d.lookUpTable.editAsString))==4)
@@ -538,6 +562,21 @@ cmp:
             fprintf(f, "PERSIST %s\n", l->d.persist.var);
             break;
 
+        case ELEM_STRING: {
+            int i;
+            fprintf(f, "STRING ");
+            if(*(l->d.fmtdStr.var)) {
+                fprintf(f, "%s", l->d.fmtdStr.var);
+            } else {
+                fprintf(f, "(none)");
+            }
+            fprintf(f, " %d", strlen(l->d.fmtdStr.string));
+            for(i = 0; i < (int)strlen(l->d.fmtdStr.string); i++) {
+                fprintf(f, " %d", l->d.fmtdStr.string[i]);
+            }
+            fprintf(f, "\n");
+            break;
+        }
         case ELEM_FORMATTED_STRING: {
             int i;
             fprintf(f, "FORMATTED_STRING ");

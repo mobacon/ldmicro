@@ -176,13 +176,13 @@ void SetMenusEnabled(BOOL canNegate, BOOL canNormal, BOOL canResetOnly,
     EnableMenuItem(InstructionMenu, MNU_INSERT_MUL, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_DIV, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_CTC, t);
-    EnableMenuItem(InstructionMenu, MNU_INSERT_PERSIST, t);
-    EnableMenuItem(InstructionMenu, MNU_INSERT_READ_ADC, t);
-    EnableMenuItem(InstructionMenu, MNU_INSERT_SET_PWM, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_MASTER_RLY, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_SHIFT_REG, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_LUT, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_PWL, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_PERSIST, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_READ_ADC, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_SET_PWM, t);
 
     t = canInsertOther ? MF_ENABLED : MF_GRAYED;
     EnableMenuItem(InstructionMenu, MNU_INSERT_TON, t);
@@ -201,9 +201,10 @@ void SetMenusEnabled(BOOL canNegate, BOOL canNormal, BOOL canResetOnly,
     EnableMenuItem(InstructionMenu, MNU_INSERT_LEQ, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_SHORT, t);
     EnableMenuItem(InstructionMenu, MNU_INSERT_OPEN, t);
-    EnableMenuItem(InstructionMenu, MNU_INSERT_UART_SEND, t);
-    EnableMenuItem(InstructionMenu, MNU_INSERT_UART_RECV, t);
-    EnableMenuItem(InstructionMenu, MNU_INSERT_FMTD_STR, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_UART_SEND, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_UART_RECV, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_FMTD_STR, t);
+    EnableMenuItem(SpecialInstructionMenu, MNU_INSERT_STRING, t);
 }
 
 //-----------------------------------------------------------------------------
@@ -334,18 +335,19 @@ HMENU MakeMainWindowMenus(void)
     SpecialInstructionMenu = CreatePopupMenu();
     AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_FMTD_STR,
         _("Insert Formatted String Over UART"));
-	AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_UART_SEND,
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_UART_SEND,
         _("Insert &UART Send"));
     AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_UART_RECV,
         _("Insert &UART Receive"));
     AppendMenu(SpecialInstructionMenu, MF_SEPARATOR, 0, NULL);
-	AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_SET_PWM,
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_STRING,
+        _("Insert Formatted String"));
+    AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_SET_PWM,
         _("Insert Set PWM Output"));
     AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_READ_ADC,
         _("Insert A/D Converter Read\tP"));
     AppendMenu(SpecialInstructionMenu, MF_STRING, MNU_INSERT_PERSIST,
         _("Insert Make Persistent"));
-
     settings = CreatePopupMenu();
     AppendMenu(settings, MF_STRING, MNU_MCU_SETTINGS, _("&MCU Parameters..."));
     ProcessorMenu = CreatePopupMenu();

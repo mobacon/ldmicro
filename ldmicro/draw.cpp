@@ -99,6 +99,7 @@ static int CountWidthOfElement(int which, void *elem, int soFar)
         case ELEM_UART_SEND:
             return 1;
 
+        case ELEM_STRING:
         case ELEM_FORMATTED_STRING:
             return 2;
 
@@ -793,6 +794,7 @@ cmp:
             *cx += POS_WIDTH;
             break;
         }
+        case ELEM_STRING:
         case ELEM_FORMATTED_STRING: {
             // Careful, string could be longer than fits in our space.
             char str[POS_WIDTH*2];
@@ -852,6 +854,7 @@ cmp:
         case ELEM_SUB:
         case ELEM_MUL:
         case ELEM_DIV:
+        case ELEM_STRING:
         case ELEM_FORMATTED_STRING:
             DM_BOUNDS(gx-1, gy);
             DisplayMatrix[gx-1][gy] = leaf;

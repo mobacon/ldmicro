@@ -478,6 +478,11 @@ void EditSelectedElement(void)
                 &(Selected->d.shiftRegister.stages));
             break;
 
+        case ELEM_STRING:
+            ShowStringDialog(Selected->d.fmtdStr.var,
+                Selected->d.fmtdStr.string);
+            break;
+
         case ELEM_FORMATTED_STRING:
             ShowFormattedStringDialog(Selected->d.fmtdStr.var,
                 Selected->d.fmtdStr.string);

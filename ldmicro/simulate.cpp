@@ -394,6 +394,7 @@ static void CheckVariableNamesCircuit(int which, void *elem)
         }
 
         case ELEM_PERSIST:
+        case ELEM_STRING:
         case ELEM_FORMATTED_STRING:
         case ELEM_SET_PWM:
         case ELEM_MASTER_RELAY:
