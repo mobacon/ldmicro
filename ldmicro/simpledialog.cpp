@@ -50,7 +50,7 @@ static LRESULT CALLBACK MyAlnumOnlyProc(HWND hwnd, UINT msg, WPARAM wParam,
 {
     if(msg == WM_CHAR) {
         if(!(isalpha(wParam) || isdigit(wParam) || wParam == '_' ||
-            wParam == '\b' || wParam == '-' || wParam == '\''))
+            wParam == '\b' || wParam == '-' || wParam == '\'' || wParam == '@'))
         {
             return 0;
         }
