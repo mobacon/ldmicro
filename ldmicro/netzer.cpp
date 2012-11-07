@@ -67,6 +67,54 @@ static int StringsCount;
 static void generateNetzerOpcodes(BinOp * Program, int MaxLabel, 
 	OpcodeMeta * pOpcodeMeta, FILE * f = NULL);
 
+static int GetLocalVariablesAsMetaTags(FILE * f = NULL)
+{
+    int i;
+    int metas = 0;
+    for(i = 0; i < VariablesCount; i++) 
+	{
+		if ((Variables[i].Name[0] != '$') && !(Variables[i].Address & MAPPED_TO_IO))
+        {
+            int name_len = strlen(Variables[i].Name);
+            metas += name_len + 3;
+            if (f)
+            {
+                // File handle is given. Write the tag directly to the file.
+                fputc(MTT_LOCAL_VARIABLE, f);     // Type tag.
+                fputc(name_len+1, f);             // Tag length.
+                fputc(Variables[i].Address & 0xFF, f);    // Write address of register.
+                fwrite(Variables[i].Name, 1, name_len, f);    // Write name.
+            }
+		}
+	}
+
+    return metas;
+}
+
+static int GetLocalRelaysAsMetaTags(FILE * f = NULL)
+{
+    int i;
+    int metas = 0;
+    for(i = 0; i < RelaysCount; i++) 
+	{
+		if ((Relays[i].Name[0] != '$') && !(Relays[i].Address & MAPPED_TO_IO))
+        {
+            int name_len = strlen(Relays[i].Name);
+            metas += name_len + 3;
+            if (f)
+            {
+                // File handle is given. Write the tag directly to the file.
+                fputc(MTT_LOCAL_VARIABLE, f);     // Type tag.
+                fputc(name_len+1, f);             // Tag length.
+                fputc(Relays[i].Address & 0xFF, f);    // Write address of register.
+                fwrite(Relays[i].Name, 1, name_len, f);    // Write name.
+            }
+		}
+	}
+
+    return metas;
+}
+
 static WORD AddrForString(char *name)
 {
     int i;
@@ -78,16 +126,6 @@ static WORD AddrForString(char *name)
     strcpy(Strings[i], name);
     StringsCount++;
     return i;
-}
-
-static void Write(FILE *f, BinOp *op)
-{
-    BYTE *b = (BYTE *)op;
-    int i;
-    for(i = 0; i < sizeof(*op); i++) {
-        fprintf(f, "%02x", b[i]);
-    }
-    fprintf(f, "\n");
 }
 
 static WORD AddrForRelay(char *name)
@@ -399,6 +437,11 @@ finishIf:
                 }
                 // But don't generate an instruction for this.
                 continue;
+
+			case INT_WRITE_STRING:
+				op.name1 = AddrForString(IntCode[ipc].name2);	// Sourcestring
+				op.name2 = AddrForVariable(IntCode[ipc].name1); // Destvar
+				break;
 
             case INT_SIMULATE_NODE_STATE:
             case INT_COMMENT:
@@ -829,7 +872,7 @@ static void elseOp(BinOp * Op, OpcodeMeta * pMeta, FILE * f = NULL)
 void CompileNetzer(char *outFile)
 {
 	char projectname[MAX_PROJECTNAME_LENGTH+1];
-	NetzerMetaInformation meta;
+	NetzerMetaInformation_t meta;
 	int opcodes;
 
 	memset((void *)&meta, 0, sizeof(meta));
@@ -894,7 +937,17 @@ void CompileNetzer(char *outFile)
 
 
 	// Add space for meta informations.
-	fseek(f, sizeof(meta) + SIZEOF_HEADER + strlen(projectname), SEEK_SET);
+    {
+        int meta_size = sizeof(meta) + SIZEOF_HEADER + strlen(projectname);
+        
+        // Add space for meta tags.
+        meta_size++;    // At least the end of head tag is needed.
+        meta_size += GetLocalRelaysAsMetaTags();
+        meta_size += GetLocalVariablesAsMetaTags();
+
+	    // Seek after.
+        fseek(f, meta_size, SEEK_SET);
+    }
 
 
 	OpcodeMeta opcodeMeta;
@@ -920,6 +973,11 @@ void CompileNetzer(char *outFile)
 	fseek(f, SIZEOF_HEADER, SEEK_SET);
 	fwrite((const void *) &meta, 1, sizeof(meta), f);
 	fprintf(f, "%s", projectname);
+
+    // Write meta tags to file:
+    GetLocalRelaysAsMetaTags(f);
+    GetLocalVariablesAsMetaTags(f);
+    fputc(MTT_END_OF_HEADER, f);
 
 
 	// Calculate image CRC and write it to file.

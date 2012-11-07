@@ -39,7 +39,22 @@ typedef struct NetzerMetaInformationTag
 	MetaFlags	Flags;
 	BYTE	ProjectnameLength;
 //	BYTE	Projectname[];
-} NetzerMetaInformation;
+} NetzerMetaInformation_t;
+
+typedef enum
+{
+    MTT_END_OF_HEADER = 0xFF,
+    MTT_LOCAL_VARIABLE = 0x00,
+    MTT_LOCAL_RELAY = 0x01,
+} MetaTagType_t;
+
+typedef struct
+{
+    MetaTagType_t Type;
+    BYTE Length;  // For header close tags (MTT_END_OF_HEADER) this one is omitted.
+//  BYTE TagData[];
+} ProcessMetaTag;
+
 # pragma pack ()
 
 typedef enum NetzerIntCodesTag 
