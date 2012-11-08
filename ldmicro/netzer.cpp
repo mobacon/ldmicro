@@ -166,6 +166,28 @@ static WORD AddrForRelay(char *name)
 	return Relays[i].Address;
 }
 
+static int GetPercentCharactersCount(char * Search)
+{
+    int found = 0;
+    while(Search[0])
+    {
+        if (Search[0] == '%')
+        {
+            if (Search[1] == '%')
+            {
+                // Do not count double % (escaped.)
+                Search++;
+            }
+            else
+            {
+                found++;
+            }
+        }
+        Search++;
+    }
+
+    return found;
+}
 
 static WORD AddrForVariable(char *name)
 {
@@ -449,11 +471,19 @@ finishIf:
 				
                 if (!(op.name1 & MAPPED_TO_IO))
                 {
-                    // Dest variable must be located at IO register.
                     Error(_("Dest variable of write string instruction must be "
                         "located at IO register."));
                     return -1;
                 }
+
+                // Check whether only one % sign is included!
+                if (GetPercentCharactersCount(IntCode[ipc].name3) > 1)
+                {
+                    Error(_("Maximal one format placeholder is allowed in write "
+                        "string instruction.")); 
+                    return -1;
+                }
+
                 break;
 
             case INT_SIMULATE_NODE_STATE:
