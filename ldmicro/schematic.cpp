@@ -479,7 +479,7 @@ void EditSelectedElement(void)
             break;
 
         case ELEM_STRING:
-            ShowStringDialog(Selected->d.fmtdStr.var,
+            ShowStringDialog(Selected->d.fmtdStr.dest, Selected->d.fmtdStr.var,
                 Selected->d.fmtdStr.string);
             break;
 

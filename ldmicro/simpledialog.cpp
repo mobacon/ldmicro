@@ -416,13 +416,13 @@ void ShowFormattedStringDialog(char *var, char *string)
 }
 
 
-void ShowStringDialog(char *var, char *string)
+void ShowStringDialog(char * dest, char *var, char *string)
 {
-    char *labels[] = { _("Variable:"), _("String:") };
-    char *dests[] = { var, string };
+    char *labels[] = { _("Dest:"), _("Variable:"), _("String:") };
+    char *dests[] = { dest, var, string };
     NoCheckingOnBox[0] = TRUE;
     NoCheckingOnBox[1] = TRUE;
-    ShowSimpleDialog(_("String"), 2, labels, 0x0,
+    ShowSimpleDialog(_("Formatted String"), 3, labels, 0x0,
         0x1, 0x3, dests);
     NoCheckingOnBox[0] = FALSE;
     NoCheckingOnBox[1] = FALSE;

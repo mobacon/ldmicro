@@ -302,6 +302,7 @@ typedef struct ElemPiecewiseLinearTag {
 } ElemPiecewiseLinear;
 
 typedef struct ElemFormattedStringTag {
+    char    dest[MAX_NAME_LEN];
     char    var[MAX_NAME_LEN];
     char    string[MAX_LOOK_UP_TABLE_LEN];
 } ElemFormattedString;
@@ -336,7 +337,7 @@ typedef struct ElemLeafTag {
         ElemLookUpTable     lookUpTable;
         ElemPiecewiseLinear piecewiseLinear;
         ElemPersist         persist;
-    }       d;
+    } d;
 } ElemLeaf;
 
 typedef struct ElemSubcktSeriesTag {
@@ -677,7 +678,7 @@ void ShowCmpDialog(int which, char *op1, char *op2);
 void ShowMathDialog(int which, char *dest, char *op1, char *op2);
 void ShowShiftRegisterDialog(char *name, int *stages);
 void ShowFormattedStringDialog(char *var, char *string);
-void ShowStringDialog(char *var, char *string);
+void ShowStringDialog(char * dest, char *var, char *string);
 void ShowLookUpTableDialog(ElemLeaf *l);
 void ShowPiecewiseLinearDialog(ElemLeaf *l);
 void ShowResetDialog(char *name);
