@@ -179,16 +179,19 @@ static BOOL LoadLeafFromFile(char *line, void **any, int *which)
         l->d.fmtdStr.string[i] = '\0';
 
         *which = ELEM_FORMATTED_STRING;
-    } else if(sscanf(line, "STRING %s %d", l->d.fmtdStr.var, 
-        &x)==2)
+    } else if(sscanf(line, "STRING %s %s %d", l->d.fmtdStr.dest, l->d.fmtdStr.var, 
+        &x)==3)
     {
+        if(strcmp(l->d.fmtdStr.dest, "(none)")==0) {
+            strcpy(l->d.fmtdStr.dest, "");
+        }
         if(strcmp(l->d.fmtdStr.var, "(none)")==0) {
             strcpy(l->d.fmtdStr.var, "");
         }
 
         char *p = line;
         int i;
-        for(i = 0; i < 3; i++) {
+        for(i = 0; i < 4; i++) {
             while(!isspace(*p)) p++;
             while( isspace(*p)) p++;
         }
@@ -565,10 +568,15 @@ cmp:
         case ELEM_STRING: {
             int i;
             fprintf(f, "STRING ");
-            if(*(l->d.fmtdStr.var)) {
-                fprintf(f, "%s", l->d.fmtdStr.var);
+            if(*(l->d.fmtdStr.dest)) {
+                fprintf(f, "%s", l->d.fmtdStr.dest);
             } else {
                 fprintf(f, "(none)");
+            }
+            if(*(l->d.fmtdStr.var)) {
+                fprintf(f, " %s", l->d.fmtdStr.var);
+            } else {
+                fprintf(f, " (none)");
             }
             fprintf(f, " %d", strlen(l->d.fmtdStr.string));
             for(i = 0; i < (int)strlen(l->d.fmtdStr.string); i++) {

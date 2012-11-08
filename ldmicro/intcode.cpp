@@ -668,7 +668,7 @@ static void IntCodeFromCircuit(int which, void *any, char *stateInOut)
 
         case ELEM_STRING: {
             Op(INT_IF_BIT_SET, stateInOut);
-            Op(INT_WRITE_STRING, l->d.move.src, l->d.move.dest);
+            Op(INT_WRITE_STRING, l->d.fmtdStr.dest, l->d.fmtdStr.var, l->d.fmtdStr.string, 0);
             Op(INT_END_IF);
             break;
         }
