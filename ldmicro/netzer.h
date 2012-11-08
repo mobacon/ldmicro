@@ -93,7 +93,10 @@ typedef enum NetzerIntCodesTag
 	OP_IF_VARIABLE_EQUALS_VARIABLE = 0x70,
 	OP_IF_VARIABLE_GRT_VARIABLE = 0x74,
 	
-	OP_ELSE = 0x78
+	OP_ELSE = 0x78,
+
+    OP_WRITE_STRING = 0x7C,
+    OP_WRITE_STRING_IO = 0x80
 } NetzerIntCodes;
 
 

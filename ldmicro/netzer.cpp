@@ -66,6 +66,8 @@ static int StringsCount;
 
 static void generateNetzerOpcodes(BinOp * Program, int MaxLabel, 
 	OpcodeMeta * pOpcodeMeta, FILE * f = NULL);
+static BYTE getInternalIntegerAddress(WORD Address);
+
 
 static int GetLocalVariablesAsMetaTags(FILE * f = NULL)
 {
@@ -293,7 +295,9 @@ static void locateRegister(void)
             case INT_SET_VARIABLE_TO_LITERAL:
             case INT_INCREMENT_VARIABLE:
             case INT_IF_VARIABLE_LES_LITERAL:
-				AddrForVariable(IntCode[ipc].name1);
+            case INT_WRITE_STRING:
+				AddrForVariable(IntCode[ipc].name1);    // dest
+                AddrForVariable(IntCode[ipc].name2);    // src
 				break;
 
             case INT_SET_VARIABLE_TO_VARIABLE:
@@ -439,9 +443,18 @@ finishIf:
                 continue;
 
 			case INT_WRITE_STRING:
-				op.name1 = AddrForString(IntCode[ipc].name2);	// Sourcestring
-				op.name2 = AddrForVariable(IntCode[ipc].name1); // Destvar
-				break;
+				op.name1 = AddrForVariable(IntCode[ipc].name1); // dest var
+                op.name2 = AddrForVariable(IntCode[ipc].name2); // source var
+				op.name3 = AddrForString(IntCode[ipc].name3);	// source string
+				
+                if (!(op.name1 & MAPPED_TO_IO))
+                {
+                    // Dest variable must be located at IO register.
+                    Error(_("Dest variable of write string instruction must be "
+                        "located at IO register."));
+                    return -1;
+                }
+                break;
 
             case INT_SIMULATE_NODE_STATE:
             case INT_COMMENT:
@@ -457,8 +470,8 @@ finishIf:
             case INT_UART_RECV:
             default:
                 Error(_("Unsupported op (anything ADC, PWM, UART, EEPROM) for "
-                    "interpretable target."));
-                return 0;
+                    "Netzer target."));
+                return -1;
         }
         
         memcpy(&OutProg[outPc], &op, sizeof(op));
@@ -869,6 +882,46 @@ static void elseOp(BinOp * Op, OpcodeMeta * pMeta, FILE * f = NULL)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+static int normalizeString(char * pString, FILE * f = NULL)
+{
+    int len = 0;
+
+    return len;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+static void writeStringOp(BinOp * Op, OpcodeMeta * pMeta, FILE * f = NULL)
+{
+    BYTE address;
+	NetzerIntCodes op;
+
+	if (Op->name2 & MAPPED_TO_IO)
+	{
+		op = OP_WRITE_STRING_IO;
+		address = getIOAddress(Op->name2);
+	}
+	else
+	{
+		op = OP_WRITE_STRING;
+		address = getInternalIntegerAddress(Op->name2);
+	}
+
+    int len = strlen(Strings[Op->name3]);
+	if (f)
+	{
+		fprintf(f, "%c%c%c", op, address, getIOAddress(Op->name1));
+        fprintf(f, "%s", Strings[Op->name3]);
+        fputc(0, f);    // Terminate string.
+	}
+
+    // Now normalize string for embedding it into image.
+	pMeta->BytesConsumed += 3 + len + 1;
+	pMeta->Opcodes += 1;	// One opcode generated.
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void CompileNetzer(char *outFile)
 {
 	char projectname[MAX_PROJECTNAME_LENGTH+1];
@@ -919,6 +972,11 @@ void CompileNetzer(char *outFile)
 		Error(_("No opcodes found."));
 		return;
 	}
+    else if (opcodes == -1)
+    {
+        // Errors found, better return without doing anything here.
+        return;
+    }
 
 
 	FILE *f = fopen(outFile, "w+b");
@@ -1068,12 +1126,10 @@ static void generateNetzerOpcodes(BinOp * Program, int MaxLabel,
             case INT_ELSE:
 				elseOp(&Program[idx], pOpcodeMeta, f);
                 break;
-/*
+
 			case INT_WRITE_STRING:
-				op.name1 = AddrForString(IntCode[ipc].name2);	// Sourcestring
-				op.name2 = AddrForVariable(IntCode[ipc].name1); // Destvar
+                writeStringOp(&Program[idx], pOpcodeMeta, f);
 				break;
-*/
 
 			case INT_END_OF_PROGRAM:
 				if (f) fputc(OP_END_OF_PROGRAM, f);
