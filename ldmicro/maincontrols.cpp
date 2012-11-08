@@ -386,7 +386,7 @@ HMENU MakeMainWindowMenus(void)
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)InstructionMenu,
         _("&Instruction"));
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)SpecialInstructionMenu,
-        _("&Special"));
+        _("S&pecial"));
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)SimulateMenu,
         _("Si&mulate"));
     AppendMenu(TopMenu, MF_STRING | MF_POPUP, (UINT_PTR)compile, 
