@@ -200,6 +200,9 @@ static void ExtractNamesFromCircuit(int which, void *any)
             break;
 
         case ELEM_STRING:
+            if(strlen(l->d.fmtdStr.dest) > 0) {
+                AppendIo(l->d.fmtdStr.dest, IO_TYPE_GENERAL);
+            }
             if(strlen(l->d.fmtdStr.var) > 0) {
                 AppendIo(l->d.fmtdStr.var, IO_TYPE_GENERAL);
             }
