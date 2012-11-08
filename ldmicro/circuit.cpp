@@ -312,6 +312,7 @@ void AddString(void)
     if(!CanInsertOther) return;
 
     ElemLeaf *t = AllocLeaf();
+    strcpy(t->d.fmtdStr.dest, "dest");
     strcpy(t->d.fmtdStr.var, "var");
     strcpy(t->d.fmtdStr.string, "string");
     AddLeaf(ELEM_STRING, t);
