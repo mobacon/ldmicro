@@ -794,7 +794,34 @@ cmp:
             *cx += POS_WIDTH;
             break;
         }
-        case ELEM_STRING:
+        case ELEM_STRING: {
+            // Careful, string could be longer than fits in our space.
+            char str[POS_WIDTH];
+            memset(str, 0, sizeof(str));
+            char *srcStr = leaf->d.fmtdStr.string;
+            memcpy(str, srcStr, min(strlen(srcStr), POS_WIDTH-5));
+
+            char var[POS_WIDTH];
+            memset(var, 0, sizeof(var));
+            char *varStr = leaf->d.fmtdStr.var;
+            memcpy(var, varStr, min(strlen(varStr), POS_WIDTH-5));
+         
+            char bot[100];
+            sprintf(bot, "{\"%s\", %s}", str, var);
+
+            int extra = 2*POS_WIDTH - strlen(leaf->d.fmtdStr.dest);
+            PoweredText(poweredAfter);
+            NameText();
+            DrawChars(*cx + (extra/2), *cy + (POS_HEIGHT/2) - 1,
+                leaf->d.fmtdStr.dest);
+            BodyText();
+
+            CenterWithWiresWidth(*cx, *cy, bot, poweredBefore, poweredAfter,
+                2*POS_WIDTH);
+            *cx += 2*POS_WIDTH;
+            break;
+        }
+
         case ELEM_FORMATTED_STRING: {
             // Careful, string could be longer than fits in our space.
             char str[POS_WIDTH*2];
