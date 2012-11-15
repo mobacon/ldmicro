@@ -27,6 +27,7 @@
 #include <setjmp.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stddef.h>
 
 #include "ldmicro.h"
 #include "intcode.h"
@@ -314,9 +315,12 @@ static void locateRegister(void)
                 AddrForRelay(IntCode[ipc].name2);
                 break;
 
-            case INT_SET_VARIABLE_TO_LITERAL:
             case INT_INCREMENT_VARIABLE:
+            case INT_SET_VARIABLE_TO_LITERAL:
             case INT_IF_VARIABLE_LES_LITERAL:
+                AddrForVariable(IntCode[ipc].name1);    // dest
+                break;
+
             case INT_WRITE_STRING:
 				AddrForVariable(IntCode[ipc].name1);    // dest
                 AddrForVariable(IntCode[ipc].name2);    // src
@@ -1017,16 +1021,9 @@ void CompileNetzer(char *outFile)
     }
 
 	
-	// Write header (indicates it as Netzer ladder file).
-	fputc('N', f);
-	fputc('E', f);
-	fputc('L', f);
-	fputc('D', f);
-
-
-	// Add space for meta informations.
+    // Add space for meta informations.
     {
-        int meta_size = sizeof(meta) + SIZEOF_HEADER + strlen(projectname);
+        int meta_size = sizeof(meta) + strlen(projectname);
         
         // Add space for meta tags.
         meta_size++;    // At least the end of head tag is needed.
@@ -1039,15 +1036,17 @@ void CompileNetzer(char *outFile)
 
 
 	OpcodeMeta opcodeMeta;
-	opcodeMeta.BytesConsumed = 0;
+    opcodeMeta.BytesConsumed = 0;
 	opcodeMeta.Opcodes = 0;
 
 	generateNetzerOpcodes(OutProg, opcodes, &opcodeMeta, f);
 
 
 	// Complete and write meta informations.
+    meta.StartTag[0] = 'N'; meta.StartTag[1] = 'E'; 
+    meta.StartTag[2] = 'L'; meta.StartTag[3] = 'D';
 	meta.Opcodes = opcodeMeta.Opcodes;
-	meta.ImageLength = (WORD)(ftell(f) - SIZEOF_HEADER);
+	meta.ImageLength = (WORD)(ftell(f));
 
 	time_t rawtime;
 	time(&rawtime);
@@ -1058,7 +1057,7 @@ void CompileNetzer(char *outFile)
 	meta.Flags.FormatVersion = CURRENT_FORMAT_VERSION;
 	meta.Flags.IsCompiled = FALSE;
 
-	fseek(f, SIZEOF_HEADER, SEEK_SET);
+	fseek(f, 0, SEEK_SET);
 	fwrite((const void *) &meta, 1, sizeof(meta), f);
 	fprintf(f, "%s", projectname);
 
@@ -1069,9 +1068,9 @@ void CompileNetzer(char *outFile)
 
 
 	// Calculate image CRC and write it to file.
-	fseek(f, sizeof(meta.ImageCRC) + SIZEOF_HEADER, SEEK_SET);
-	meta.ImageCRC = calculateCRC(f, meta.ImageLength-sizeof(meta.ImageCRC));
-	fseek(f, SIZEOF_HEADER, SEEK_SET);
+	fseek(f, offsetof(NetzerMetaInformation_t, ImageLength), SEEK_SET);
+	meta.ImageCRC = calculateCRC(f, meta.ImageLength-offsetof(NetzerMetaInformation_t, ImageLength));
+	fseek(f, offsetof(NetzerMetaInformation_t, ImageCRC), SEEK_SET);
 	fwrite((const void *) &meta.ImageCRC, 1, sizeof(meta.ImageCRC), f);
 
 

@@ -18,7 +18,6 @@
 //-----------------------------------------------------------------------------
 
 #define CURRENT_FORMAT_VERSION   (1u)
-#define SIZEOF_HEADER			 (4u)
 #define MAX_PROJECTNAME_LENGTH   (16u)
 
 # pragma pack (1)
@@ -31,6 +30,7 @@ typedef struct MetaFlagsTag
 
 typedef struct NetzerMetaInformationTag 
 {
+    BYTE    StartTag[4];
 	WORD	ImageCRC;	
 	WORD	ImageLength;
 	WORD	Opcodes;
