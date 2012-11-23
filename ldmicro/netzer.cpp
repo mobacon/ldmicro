@@ -944,13 +944,13 @@ static void writeStringOp(BinOp * Op, OpcodeMeta * pMeta, FILE * f = NULL)
     int len = strlen(Strings[Op->name3]);
 	if (f)
 	{
-		fprintf(f, "%c%c%c", op, address, getIOAddress(Op->name1));
+		fprintf(f, "%c%c%c%c", op, len+4, address, getIOAddress(Op->name1));
         fprintf(f, "%s", Strings[Op->name3]);
         fputc(0, f);    // Terminate string.
 	}
 
     // Now normalize string for embedding it into image.
-	pMeta->BytesConsumed += 3 + len + 1;
+	pMeta->BytesConsumed += 4 + len + 1;
 	pMeta->Opcodes += 1;	// One opcode generated.
 }
 
