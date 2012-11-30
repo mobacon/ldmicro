@@ -422,10 +422,12 @@ void ShowStringDialog(char * dest, char *var, char *string)
     char *dests[] = { dest, var, string };
     NoCheckingOnBox[0] = TRUE;
     NoCheckingOnBox[1] = TRUE;
+    NoCheckingOnBox[2] = TRUE;
     ShowSimpleDialog(_("Formatted String"), 3, labels, 0x0,
         0x1, 0x3, dests);
     NoCheckingOnBox[0] = FALSE;
     NoCheckingOnBox[1] = FALSE;
+    NoCheckingOnBox[2] = FALSE;
 }
 
 void ShowPersistDialog(char *var)
