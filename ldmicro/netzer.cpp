@@ -85,7 +85,8 @@ static int GetLocalVariablesAsMetaTags(FILE * f = NULL)
                 // File handle is given. Write the tag directly to the file.
                 fputc(MTT_LOCAL_VARIABLE, f);     // Type tag.
                 fputc(name_len+1, f);             // Tag length.
-                fputc(Variables[i].Address & 0xFF, f);    // Write address of register.
+
+                fputc(getInternalIntegerAddress(Variables[i].Address), f);    // Write address of register.
                 fwrite(Variables[i].Name, 1, name_len, f);    // Write name.
             }
 		}
