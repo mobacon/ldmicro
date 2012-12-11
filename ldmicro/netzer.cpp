@@ -1044,8 +1044,10 @@ void CompileNetzer(char *outFile)
 
 
 	// Complete and write meta informations.
-    meta.StartTag[0] = 'N'; meta.StartTag[1] = 'E'; 
-    meta.StartTag[2] = 'L'; meta.StartTag[3] = 'D';
+    meta.StartTag[0] = START_TAG_BYTE1; 
+    meta.StartTag[1] = START_TAG_BYTE2; 
+    meta.StartTag[2] = START_TAG_BYTE3; 
+    meta.StartTag[3] = START_TAG_BYTE4;
 	meta.Opcodes = opcodeMeta.Opcodes;
 	meta.ImageLength = (WORD)(ftell(f));
 

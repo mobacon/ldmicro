@@ -20,6 +20,12 @@
 #define CURRENT_FORMAT_VERSION   (1u)
 #define MAX_PROJECTNAME_LENGTH   (16u)
 
+#define START_TAG_BYTE1          (0xEF)
+#define START_TAG_BYTE2          (0x00)
+#define START_TAG_BYTE3          (0xF0)
+#define START_TAG_BYTE4          (0xF4)
+
+
 # pragma pack (1)
 typedef struct MetaFlagsTag
 {
