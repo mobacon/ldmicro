@@ -1080,7 +1080,8 @@ void CompileNetzer(char *outFile)
 	// And ready.
     fclose(f);
     char str[MAX_PATH+500];
-    sprintf(str, _("Compile successful; wrote Netzer code to '%s'."), outFile);
+    sprintf(str, _("Compile successful!\r\nWrote Netzer code to '%s' (CRC: 0x%.4x)."),
+        outFile, meta.ImageCRC);
     CompileSuccessfulMessage(str);
 }
 
