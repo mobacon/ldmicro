@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright 2012 Sven Schlender
+// Copyright 2012-2013 Sven Schlender
 //
 // This file is part of LDmicro.
 // 
@@ -20,13 +20,15 @@
 #define CURRENT_FORMAT_VERSION   (1u)
 #define MAX_PROJECTNAME_LENGTH   (16u)
 
+#define PROJECT_ID_IO            (0xFFu)
+
 #define START_TAG_BYTE1          (0x00)
 #define START_TAG_BYTE2          (0xEF)
 #define START_TAG_BYTE3          (0xF4)
 #define START_TAG_BYTE4          (0xF0)
 
-
 # pragma pack (1)
+
 typedef struct MetaFlagsTag
 {
     BYTE FormatVersion : 4;
@@ -39,10 +41,11 @@ typedef struct NetzerMetaInformationTag
     BYTE    StartTag[4];
 	WORD	ImageCRC;	
 	WORD	ImageLength;
-	WORD	Opcodes;
+    MetaFlags	Flags;
+    BYTE    ProjectID; /// Dedicated for given project.
+    WORD	Opcodes;
 	WORD	CycleTime;
 	DWORD	TimeStamp;
-	MetaFlags	Flags;
 	BYTE	ProjectnameLength;
 //	BYTE	Projectname[];
 } NetzerMetaInformation_t;
