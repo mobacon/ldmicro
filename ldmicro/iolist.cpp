@@ -43,14 +43,10 @@ static struct {
 static int IoSeenPreviouslyCount;
 
 // stuff for the dialog box that lets you choose pin assignments
-static BOOL DialogDone;
-static BOOL DialogCancel;
 
 static HWND IoDialog;
 
 static HWND PinList;
-static HWND OkButton;
-static HWND CancelButton;
 
 // stuff for the popup that lets you set the simulated value of an analog in
 static HWND AnalogSliderMain;
