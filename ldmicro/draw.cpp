@@ -818,7 +818,7 @@ cmp:
         case ELEM_UART_RECV:
         case ELEM_UART_SEND:
             CenterWithWires(*cx, *cy,
-                (which == ELEM_UART_RECV) ? "{UART RECV}" : "{UART SEND}",
+                (char *)((which == ELEM_UART_RECV) ? "{UART RECV}" : "{UART SEND}"),
                 poweredBefore, poweredAfter);
             CenterWithSpaces(*cx, *cy, leaf->d.uart.name, poweredAfter, TRUE);
             *cx += POS_WIDTH;
