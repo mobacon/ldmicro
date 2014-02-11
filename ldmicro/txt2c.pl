@@ -5,9 +5,9 @@ print <<EOT;
 #include <stdlib.h>
 EOT
 
-for $manual (<manual*txt>) {
+for $manual (<$ARGV[0]/manual*txt>) {
 
-    if($manual eq 'manual.txt') {
+    if($manual =~ /manual.txt/) {
         $name = "HelpText";
         # Some languages don't have translated manuals yet, so use English
         $ifdef = "#if defined(LDLANG_EN) || defined(LDLANG_ES) || defined(LDLANG_IT) || " .
