@@ -21,6 +21,7 @@
 // plus the name, plus set-only or reset-only
 // Jonathan Westhues, Oct 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <stdio.h>
 #include <commctrl.h>

@@ -24,6 +24,7 @@
 // most of the UI logic relating to the main window.
 // Jonathan Westhues, Oct 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <commctrl.h>
 #include <commdlg.h>

@@ -22,6 +22,7 @@
 // which is configurable, plus the MCU clock (i.e. crystal frequency).
 // Jonathan Westhues, Nov 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>

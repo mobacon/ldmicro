@@ -24,6 +24,7 @@
 // timers, etc.
 // Jonathan Westhues, Nov 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>

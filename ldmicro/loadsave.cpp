@@ -20,6 +20,7 @@
 // Load/save the circuit from/to a file in a nice ASCII format.
 // Jonathan Westhues, Nov 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>

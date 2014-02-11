@@ -22,6 +22,7 @@
 // AVR or PIC16 code.
 // Jonathan Westhues, Nov 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <stdio.h>
 #include <setjmp.h>

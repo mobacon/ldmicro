@@ -22,6 +22,7 @@
 // the screen.
 // Jonathan Westhues, Dec 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>

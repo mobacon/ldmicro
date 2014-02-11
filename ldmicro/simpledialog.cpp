@@ -22,6 +22,7 @@
 // operands. Try to reuse code a bit.
 // Jonathan Westhues, Nov 2004
 //-----------------------------------------------------------------------------
+#include <ctype.h>
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>
