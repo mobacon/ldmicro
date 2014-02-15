@@ -1,0 +1,7 @@
+syntax: glob
+ldmicro/build/
+ldmicro/*.exe
+ldmicro/*.pdb
+ldmicro/*.obj
+ldmicro/obj/
+ldmicro/reg/results
