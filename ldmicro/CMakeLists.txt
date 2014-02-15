@@ -35,7 +35,8 @@ set(SOURCES ldmicro.cpp
             pic16.cpp
             avr.cpp
             ../common/win32/freeze.cpp
-            helptext.cpp)
+            helptext.cpp
+			netzer.cpp)
 
 add_definitions(-w -D_WIN32_WINNT=0x500 -DISOLATION_AWARE_ENABLED -D_WIN32_IE=0x400 -DWIN32_LEAN_AND_MEAN -DWIN32 -DLDLANG_${LANGUAGE})
 include_directories (${PROJECT_SOURCE_DIR}/common/win32) 
