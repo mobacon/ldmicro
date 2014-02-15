@@ -555,8 +555,8 @@ static void ConfigureTimer1(int cycleTimeMicroseconds)
     int countsPerCycle;
     while(divisor <= 1024) {
         int timerRate = (Prog.mcuClock / divisor); // hertz
-        double timerPeriod = 1e6 / timerRate; // timer period, us
-        countsPerCycle = ((int)(cycleTimeMicroseconds / timerPeriod)) - 1;
+        double tmp = cycleTimeMicroseconds / (1e6f / timerRate);
+        countsPerCycle = (int)(tmp) - 1;
 
         if(countsPerCycle < 1000) {
             Error(_("Cycle time too fast; increase cycle time, or use faster "
@@ -595,7 +595,7 @@ static void ConfigureTimer1(int cycleTimeMicroseconds)
     // `the high byte must be written before the low byte'
     WriteMemory(REG_OCR1AH, (countsPerCycle - 1) >> 8);
     WriteMemory(REG_OCR1AL, (countsPerCycle - 1) & 0xff);
-    
+
     // Okay, so many AVRs have a register called TIFR, but the meaning of
     // the bits in that register varies from device to device...
     if(strcmp(Prog.mcu->mcuName, "Atmel AVR ATmega162 40-PDIP")==0) {
