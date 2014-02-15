@@ -755,6 +755,28 @@ INSTRUCTIONS REFERENCE
     require modifications to all the back-ends.
 
 
+> FORMATTED STRING                 		    dest
+                                       -{"string", var}-
+
+    For targets like Netzer with already present printf implementations 
+    this instruction can be used.
+
+    When the rung-in condition for this instruction goes from false to
+    true, it starts to process the string with printf and writes the result
+    to the given dest register.
+
+    It completly embeds the given string into the resulting image.
+
+    The given variable can be any register from the program. It is
+    used as placeholder for printf. The printf function accesses
+    the register if any printf style placeholder (i.e. %d) is found.
+
+    Dest is a register where the result is written to. This should
+    be the top entry of a fifo or circular buffer.
+
+    The rung-out condition of this instruction is always true.
+
+
 A NOTE ON USING MATH
 ====================
 

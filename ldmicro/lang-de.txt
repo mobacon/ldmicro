@@ -760,3 +760,24 @@
 
 "  Name                       | Type               | Pin\n"
 "  Name                       | Typ                | Pin\n"
+
+"Compile successful; wrote Netzer code to '%s'."
+"Kompilierung für Netzer war erfolgreich; interpretierbarer Code gespeichert unter '%s'."
+
+"Unsupported op (anything ADC, PWM, UART, EEPROM) for Netzer target."
+"Keine unterstützte Operation für Netzer (kein explizites ADC, PWM, UART, EEPROM möglich)."
+
+"No opcodes found."
+"Keine Operationen gefunden."
+
+"S&pecial"
+"S&pezial"
+
+"Dest variable of write string instruction must be located at IO register."
+"Zielvariable für die Schreibe-Zeichenfolge-Operation muss auf IO Register liegen."
+
+"Maximal one format placeholder is allowed in write string instruction."
+"Es ist maximal nur ein Platzhalter pro Schreibe-Zeichenfolge-Operation möglich."
+
+"Insert Formatted String"
+"Formatierte Zeichenfolge einfügen"
