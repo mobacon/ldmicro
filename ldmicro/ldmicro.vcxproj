@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>perl txt2c.pl &gt; helptext.cpp</Command>
+      <Command>perl txt2c.pl . &gt; helptext.cpp</Command>
       <Message>Prepare the helptext module.</Message>
     </PreBuildEvent>
     <CustomBuildStep>
