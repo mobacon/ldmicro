@@ -73,4 +73,4 @@ $(HELPOBJ): $(OBJDIR)/helptext.cpp
     @$(CC) $(CFLAGS) $(DEFINES) -c -Fo$(OBJDIR)/helptext.obj $(OBJDIR)/helptext.cpp
 
 $(OBJDIR)/helptext.cpp: manual.txt manual-*.txt
-    perl txt2c.pl > $(OBJDIR)/helptext.cpp
+    perl txt2c.pl . > $(OBJDIR)/helptext.cpp

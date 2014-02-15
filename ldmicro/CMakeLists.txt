@@ -48,7 +48,7 @@ add_custom_command(OUTPUT helptext.cpp
 )
 
 add_custom_command(OUTPUT lang-tables.h
-    COMMAND perl ${CMAKE_CURRENT_SOURCE_DIR}/lang-tables.pl ${CMAKE_CURRENT_SOURCE_DIR} > obj/lang-tables.h
+    COMMAND perl ${CMAKE_CURRENT_SOURCE_DIR}/lang-tables.pl > obj/lang-tables.h
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
