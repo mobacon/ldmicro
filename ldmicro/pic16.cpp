@@ -1163,6 +1163,8 @@ static void CompileFromIntermediate(BOOL topLevel)
             case INT_ELSE:
                 return;
 
+            case INT_WRITE_STRING:
+                Error(_("Unsupported operation for target, skipped."));
             case INT_SIMULATE_NODE_STATE:
             case INT_COMMENT:
                 break;
@@ -1194,8 +1196,8 @@ static void ConfigureTimer1(int cycleTimeMicroseconds)
 
     while(divisor < 16) {
         int timerRate = (Prog.mcuClock / (4*divisor)); // hertz
-        double timerPeriod = 1e6 / timerRate; // timer period, us
-        countsPerCycle = (int)(cycleTimeMicroseconds / timerPeriod);
+        double tmp = cycleTimeMicroseconds / (1e6f / timerRate);
+        countsPerCycle = (int)(tmp) - 1;
 
         if(countsPerCycle < 1000) {
             Error(_("Cycle time too fast; increase cycle time, or use faster "
