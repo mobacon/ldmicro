@@ -42,6 +42,22 @@ For cross compiling on Linux start a command prompt and enter the following comm
 
 LANGUAGE can be set to EN, DE, FR, ES, IT, PT or TR.
 
-MinGW can be installed with 
+MinGW and CMake can be installed with 
 
-    sudo apt-get install mingw32
+    sudo apt-get install mingw32 cmake
+    
+ 
+Using on Linux
+--------------
+
+For using ldmicro on Linux you have to install wine and winetricks.
+After installation you also should install ldmicro used fonts:
+
+    winetricks Lucida Tahoma
+
+Start ldmicro with simply typing:
+
+    ./ldmicro.exe
+
+
+
