@@ -711,6 +711,7 @@ void NiceFont(HWND h);
 void FixedFont(HWND h);
 void CompileSuccessfulMessage(char *str);
 extern BOOL RunningInBatchMode;
+extern BOOL RunningInTestMode;
 extern HFONT MyNiceFont;
 extern HFONT MyFixedFont;
 extern HWND OkButton;

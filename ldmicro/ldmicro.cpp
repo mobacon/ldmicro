@@ -1035,6 +1035,162 @@ static BOOL MakeWindowClass()
 }
 
 //-----------------------------------------------------------------------------
+
+static LPSTR _getNextCommandLineArgument(LPSTR lpBuffer)
+{
+    BOOL argFound = FALSE;
+    while(*lpBuffer)
+    {
+        if (isspace(*lpBuffer))
+        {
+            argFound = FALSE;
+            
+        }
+        else if ((*lpBuffer == '-') || (*lpBuffer == '/'))
+        {
+            argFound = TRUE;
+        }
+        else if (argFound)
+        {
+            return lpBuffer;
+        }
+        
+        lpBuffer++;
+    }
+    return NULL;
+}
+
+//-----------------------------------------------------------------------------
+
+static LPSTR _getNextPositionalArgument(LPSTR lpBuffer)
+{
+    BOOL argFound = FALSE;
+    while(*lpBuffer)
+    {
+        if (isspace(*lpBuffer))
+        {
+            argFound = TRUE;
+        }
+        else if ((*lpBuffer == '-') || (*lpBuffer == '/'))
+        {
+            argFound = FALSE;
+        }
+        else if (argFound)
+        {
+            return lpBuffer;
+        }
+        lpBuffer++;
+    }
+    return NULL;
+}
+
+//-----------------------------------------------------------------------------
+
+static char * _removeWhitespace(char * pBuffer)
+{
+    // Check from left:
+    char * pStart = pBuffer;
+    while(*pBuffer)
+    {
+        if (isspace(*pBuffer) || *pBuffer == '"' || *pBuffer == '\'')
+        {
+            pStart++;
+        }
+        else
+        {
+            break;
+        }
+
+        pBuffer++;
+    }
+
+    if (*pBuffer == 0)
+    {
+        // No alphanumeric characters in this string.
+        return NULL;
+    }
+
+    
+    // Check from right.
+    {
+        int len = strlen(pBuffer);
+        char * pEnd = &pBuffer[len-1];
+
+        while(pEnd > pStart)
+        {
+            if (isspace(*pEnd) || *pEnd == '"' || *pEnd == '\'')
+            {
+                *pEnd = 0;
+            }
+            else
+            {
+                break;
+            }
+
+            pEnd--;
+        }
+    }
+
+    if (strlen(pStart) == 0)
+    {
+        return NULL;
+    }
+    
+    return pStart;
+}
+
+//-----------------------------------------------------------------------------
+
+static void _parseArguments(LPSTR lpCmdLine, char ** pSource, char ** pDest)
+{
+    // Parse for command line arguments.
+    LPSTR lpArgs = lpCmdLine;
+
+    while(1)
+    {
+        lpArgs = _getNextCommandLineArgument(lpArgs);
+            
+        if(lpArgs == NULL)
+        {
+            break;
+        }
+        if(*lpArgs == 'c')
+        {
+            RunningInBatchMode = TRUE;
+        }
+        if(*lpArgs == 't')
+        {
+            RunningInTestMode = TRUE;
+        }
+    }
+
+
+
+    // Parse for positional arguments (first is source, second destination):
+    *pSource = NULL;
+    *pDest = NULL;
+
+    lpCmdLine = _getNextPositionalArgument(lpCmdLine);
+        
+    if(lpCmdLine)
+    {
+        *pSource = lpCmdLine;
+        lpCmdLine = _getNextPositionalArgument(lpCmdLine);
+
+        if(lpCmdLine)
+        {
+            lpCmdLine[-1] = 0;  // Close source string.
+            *pDest = lpCmdLine;
+            *pDest = _removeWhitespace(*pDest);
+        }
+
+        *pSource = _removeWhitespace(*pSource);
+    }
+}
+
+
+
+//-----------------------------------------------------------------------------
 // Entry point into the program.
 //-----------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
@@ -1065,32 +1221,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     NewProgram();
     strcpy(CurrentSaveFile, "");
 
+
+    char *source = NULL;
+    char *dest = NULL;
+
+    _parseArguments(lpCmdLine, &source, &dest);
+
+
     // Check if we're running in non-interactive mode; in that case we should
     // load the file, compile, and exit.
-    while(isspace(*lpCmdLine)) {
-        lpCmdLine++;
-    }
-    if(memcmp(lpCmdLine, "/c", 2)==0) {
-        RunningInBatchMode = TRUE;
-
+    if(RunningInBatchMode) {
         char *err =
-            "Bad command line arguments: run 'ldmicro /c src.ld dest.hex'";
+            "Bad command line arguments: run 'ldmicro /c src.ld dest'";
+        
+        if(source == NULL) { Error(err); exit(-1); }
 
-        char *source = lpCmdLine + 2;
-        while(isspace(*source)) {
-            source++;
-        }
-        if(*source == '\0') { Error(err); exit(-1); }
-        char *dest = source;
-        while(!isspace(*dest) && *dest) {
-            dest++;
-        }
-        if(*dest == '\0') { Error(err); exit(-1); }
-        *dest = '\0'; dest++;
-        while(isspace(*dest)) {
-            dest++;
-        }
-        if(*dest == '\0') { Error(err); exit(-1); }
+        if(dest == NULL) { Error(err); exit(-1); }
+
         if(!LoadProjectFromFile(source)) {
             Error("Couldn't open '%s', running non-interactively.", source);
             exit(-1);
@@ -1107,17 +1254,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     ShowWindow(MainWindow, SW_SHOW);
     SetTimer(MainWindow, TIMER_BLINK_CURSOR, 800, BlinkCursor);
     
-    if(strlen(lpCmdLine) > 0) {
-        char line[MAX_PATH];
-        if(*lpCmdLine == '"') { 
-            strcpy(line, lpCmdLine+1);
-        } else {
-            strcpy(line, lpCmdLine);
-        }
-        if(strchr(line, '"')) *strchr(line, '"') = '\0';
-
+    if(source) 
+    {
         char *s;
-        GetFullPathName(line, sizeof(CurrentSaveFile), CurrentSaveFile, &s);
+        GetFullPathName(source, sizeof(CurrentSaveFile), CurrentSaveFile, &s);
         if(!LoadProjectFromFile(CurrentSaveFile)) {
             NewProgram();
             Error(_("Couldn't open '%s'."), CurrentSaveFile);

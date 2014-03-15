@@ -30,6 +30,9 @@
 // interactively vs. in batch (command-line) mode.
 BOOL RunningInBatchMode = FALSE;
 
+// We are in test mode.
+BOOL RunningInTestMode = FALSE;
+
 // Allocate memory on a local heap
 HANDLE MainHeap;
 
