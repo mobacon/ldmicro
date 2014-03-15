@@ -99,7 +99,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>perl txt2c.pl &gt; helptext.cpp</Command>
+      <Command>perl txt2c.pl . &gt; helptext.cpp</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Prepare the helptext module.</Message>
