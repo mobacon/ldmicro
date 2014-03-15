@@ -1051,9 +1051,17 @@ void CompileNetzer(char *outFile)
 	meta.Opcodes = opcodeMeta.Opcodes;
 	meta.ImageLength = (WORD)(ftell(f));
 
-	time_t rawtime;
-	time(&rawtime);
-	meta.TimeStamp = (DWORD)(rawtime) - TIME_EPOCH;
+    if (RunningInTestMode)
+    {
+        // Do not generate a time stamp in test mode (for comparing with expected results).
+	    meta.TimeStamp = 0;
+    }
+    else
+    {
+        time_t rawtime;
+	    time(&rawtime);
+	    meta.TimeStamp = (DWORD)(rawtime) - TIME_EPOCH;
+    }
 
 	meta.CycleTime = Prog.cycleTime / 1000;
 	meta.ProjectnameLength = strlen(projectname);
