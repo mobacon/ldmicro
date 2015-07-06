@@ -410,7 +410,7 @@
 "波特率不能为0。"
 
 "Compile successful; wrote IHEX for PIC16 to '%s'.\r\n\r\nConfiguration word (fuses) has been set for crystal oscillator, BOD enabled, LVP disabled, PWRT enabled, all code protection off.\r\n\r\nUsed %d/%d words of program flash (chip %d%% full)."
-"编译成功; 为PIC16将IHEX写入'%s'。\r\n\r\n已经为晶体振荡器设置配置字(保险丝)，BOD已启用，LVP未启用，PWRT已启用，所有代码保护已关闭。\r\n\r\n程序闪存已使用 %d/%d(芯片 %d%% 已满)。"
+"编译成功; 为PIC16将IHEX写入'%s'。\r\n\r\n已经为晶体振荡器设置配置字(熔丝)，BOD已启用，LVP未启用，PWRT已启用，所有代码保护已关闭。\r\n\r\n程序闪存已使用 %d/%d(芯片 %d%% 已满)。"
 
 "Type"
 "类型"
