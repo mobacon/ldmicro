@@ -77,7 +77,7 @@
 "分配:"
 
 "No microcontroller has been selected. You must select a microcontroller before you can assign I/O pins.\r\n\r\nSelect a microcontroller under the Settings menu and try again."
-"未选择微微控制器。分配I/O引脚之前必须选择一个微型控制器。\r\n\r\n在设置菜单下选择一个微型控制器，然后再试一次。"
+"未选择微型控制器。分配I/O引脚之前必须选择一个微型控制器。\r\n\r\n在设置菜单下选择一个微型控制器，然后再试一次。"
 
 "I/O Pin Assignment"
 "I/O引脚分配"
