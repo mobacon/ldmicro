@@ -380,7 +380,7 @@
 "帮助(&H)"
 
 "no MCU selected"
-"为选择MCU"
+"未选择 MCU"
 
 "cycle time %.2f ms"
 "循环时间 %.2f ms"
