@@ -644,7 +644,7 @@
 "没有变量转换为格式化字符串，但定义了一个变量名。添加类似'\\-3'的字符串，或保持变量名为空。"
 
 "Empty row; delete it or add instructions before compiling."
-"空行; 删除或在编译之前添加指令。"
+"空行；删除或在编译之前添加指令。"
 
 "Couldn't write to '%s'"
 "无法写入 '%s'"
@@ -659,7 +659,7 @@
 "不支持微型控制器 '%s'。\r\n\r\n设为默认未选中MCU。"
 
 "File format error; perhaps this program is for a newer version of LDmicro?"
-"文件格式错误; 该程序可能用新版LDmicro编写？"
+"文件格式错误；该程序可能用新版LDmicro编写？"
 
 "Index:"
 "序号:"
@@ -752,7 +752,7 @@
 "除以0; 仿真停止"
 
 "!!!too long!!!"
-"!!!太长!!!"
+"!!!too long!!!"
 
 "\n\nI/O ASSIGNMENT:\n\n"
 "\n\nI/O分配:\n\n"
