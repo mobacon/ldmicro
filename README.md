@@ -13,6 +13,22 @@ Furthermore some special features for the Netzer (PIC based) platform are added.
 Compiling on Windows
 --------------------
 
+* Using Microsoft Visual C++ Compiler
+
+LDmicro is built using Microsoft Visual C++ compiler. If that is installed correctly, then you should be able to just run
+
+```
+    make.bat
+```
+
+and see everything build.
+
+make.bat uses nmake.exe to compile the project, but Microsoft Visual Studio doesn't add nmake into your path automatically. You can start Visual Studio Command Prompt, change into ./ldmico, and run ```make.bat```(or just enter ```nmake D=LDLANG_XX```, where XX can be set to EN, DE, FR, ES, IT, PT, TR or CN).
+
+Various source and header files are generated automatically. The perl scripts to do this are included with this distribution, but it's necessary to have a perl.exe in your path somewhere.
+
+* Using GCC Compiler 
+
 For compiling on Windows start a command prompt and enter the following commands:
 
 ```
@@ -24,7 +40,7 @@ For compiling on Windows start a command prompt and enter the following commands
 ```
 
 Ensure that CMake, MinGW and MSYS are installed and in your path.
-LANGUAGE can be set to EN, DE, FR, ES, IT, PT or TR.
+LANGUAGE can be set to EN, DE, FR, ES, IT, PT, TR or CN.
 
 
 Compiling on Linux
