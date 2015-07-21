@@ -56,7 +56,7 @@ For cross compiling on Linux start a command prompt and enter the following comm
     make all
 ```
 
-LANGUAGE can be set to EN, DE, FR, ES, IT, PT or TR.
+LANGUAGE can be set to EN, DE, FR, ES, IT, PT, TR or CN.
 
 MinGW and CMake can be installed with 
 

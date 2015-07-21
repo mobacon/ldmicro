@@ -2,7 +2,7 @@
 "目标频率设为 %d Hz, 最接近的可行频率为 %d Hz (警告, >5%% 错误)。"
 
 "Compile successful; wrote IHEX for AVR to '%s'.\r\n\r\nRemember to set the processor configuration (fuses) correctly. This does not happen automatically."
-"编译成功; 为AVR写入IHEX文件 '%s' 。\r\n\r\n请正确设置处理器配置(保险)。这一操作无法自动进行。"
+"编译成功; 为AVR写入IHEX文件 '%s' 。\r\n\r\n请正确设置处理器配置(熔丝)。这一操作无法自动进行。"
 
 "( ) Normal"
 "( ) 正常"
