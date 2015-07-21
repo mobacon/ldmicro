@@ -464,21 +464,27 @@ static BOOL DrawEndOfLine(int which, ElemLeaf *leaf, int *cx, int *cy,
             char bot[256];
             ElemMove *m = &leaf->d.move;
 
-            if((strlen(m->dest) > (POS_WIDTH - 9)) ||
-               (strlen(m->src) > (POS_WIDTH - 9)))
-            {
-                CenterWithWires(*cx, *cy, TOO_LONG, poweredBefore,
-                    poweredAfter);
-                break;
+            strcpy(top, "{            }");
+            if((strlen(m->dest) >= (POS_WIDTH - 9))) {
+                memcpy(top + 1, m->dest, 3);
+                memset(top + 4, '.', 3);
+                memcpy(top + 7, m->dest + strlen(m->dest) - 3, 3);
+                top[9 + 2] = ':';
+                top[9 + 3] = '=';
+            } else {
+                memcpy(top + 1, m->dest, strlen(m->dest));
+                top[strlen(m->dest) + 3] = ':';
+                top[strlen(m->dest) + 4] = '=';
             }
 
-            strcpy(top, "{            }");
-            memcpy(top+1, m->dest, strlen(m->dest));
-            top[strlen(m->dest) + 3] = ':';
-            top[strlen(m->dest) + 4] = '=';
-
             strcpy(bot, "{         \x01MOV\x02}");
-            memcpy(bot+2, m->src, strlen(m->src));
+            if (strlen(m->src) >= (POS_WIDTH - 9)) {
+                memcpy(bot + 1, m->src, 3);
+                memset(bot + 4, '.', 3);
+                memcpy(bot + 7, m->src + strlen(m->src) - 2, 2);
+            } else {
+                memcpy(bot + 2, m->src, strlen(m->src));
+            }
 
             CenterWithSpaces(*cx, *cy, top, poweredAfter, FALSE);
             CenterWithWires(*cx, *cy, bot, poweredBefore, poweredAfter);
