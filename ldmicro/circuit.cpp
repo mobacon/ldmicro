@@ -31,6 +31,26 @@
 static ElemSubcktSeries *LoadSeriesFromFile(FILE *f);
 
 //-----------------------------------------------------------------------------
+// Order of elements.
+//-----------------------------------------------------------------------------
+static int ContactOrder;
+static int CoilOrder;
+static int TimerOrder;
+static int CounterOrder;
+
+//-----------------------------------------------------------------------------
+// Automatically increment number of a kind element.
+//-----------------------------------------------------------------------------
+char * IncrementElementOrder(char *s, int &currentOrder)
+{
+	char buffer[10];
+	sprintf(buffer, "%d", currentOrder);
+	strcat(s, buffer);
+	currentOrder++;
+	return s;
+}
+
+//-----------------------------------------------------------------------------
 // Convenience routines for allocating frequently-used data structures.
 //-----------------------------------------------------------------------------
 ElemLeaf *AllocLeaf(void)
@@ -241,6 +261,7 @@ void AddContact(void)
 
     ElemLeaf *c = AllocLeaf();
     strcpy(c->d.contacts.name, "Xnew");
+	IncrementElementOrder(c->d.contacts.name, ContactOrder);
     c->d.contacts.negated = FALSE;
 
     AddLeaf(ELEM_CONTACTS, c);
@@ -251,6 +272,7 @@ void AddCoil(void)
 
     ElemLeaf *c = AllocLeaf();
     strcpy(c->d.coil.name, "Ynew");
+	IncrementElementOrder(c->d.coil.name, CoilOrder);
     c->d.coil.negated = FALSE;
     c->d.coil.setOnly = FALSE;
     c->d.coil.resetOnly = FALSE;
@@ -263,6 +285,7 @@ void AddTimer(int which)
 
     ElemLeaf *t = AllocLeaf();
     strcpy(t->d.timer.name, "Tnew");
+	IncrementElementOrder(t->d.timer.name, TimerOrder);
     t->d.timer.delay = 100000;
 
     AddLeaf(which, t);
@@ -366,6 +389,7 @@ void AddCounter(int which)
 
     ElemLeaf *t = AllocLeaf();
     strcpy(t->d.counter.name, "Cnew");
+	IncrementElementOrder(t->d.counter.name, CounterOrder);
     t->d.counter.max = 0;
     AddLeaf(which, t);
 }

@@ -35,6 +35,7 @@ extern char *HelpText[];
 extern char *HelpTextDe[];
 extern char *HelpTextFr[];
 extern char *HelpTextTr[];
+extern char *HelpTextCn[];
 
 static char *AboutText[] = {
 "",
@@ -82,6 +83,8 @@ static char **Text[] = {
     HelpTextFr,
 #elif defined(LDLANG_TR)
     HelpTextTr,
+#elif defined(LDLANG_CN)
+    HelpTextCn,
 #else
 #   error "Bad language"
 #endif

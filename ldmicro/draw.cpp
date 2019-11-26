@@ -464,21 +464,27 @@ static BOOL DrawEndOfLine(int which, ElemLeaf *leaf, int *cx, int *cy,
             char bot[256];
             ElemMove *m = &leaf->d.move;
 
-            if((strlen(m->dest) > (POS_WIDTH - 9)) ||
-               (strlen(m->src) > (POS_WIDTH - 9)))
-            {
-                CenterWithWires(*cx, *cy, TOO_LONG, poweredBefore,
-                    poweredAfter);
-                break;
+            strcpy(top, "{            }");
+            if((strlen(m->dest) >= (POS_WIDTH - 9))) {
+                memcpy(top + 1, m->dest, 3);
+                memset(top + 4, '.', 3);
+                memcpy(top + 7, m->dest + strlen(m->dest) - 3, 3);
+                top[9 + 2] = ':';
+                top[9 + 3] = '=';
+            } else {
+                memcpy(top + 1, m->dest, strlen(m->dest));
+                top[strlen(m->dest) + 3] = ':';
+                top[strlen(m->dest) + 4] = '=';
             }
 
-            strcpy(top, "{            }");
-            memcpy(top+1, m->dest, strlen(m->dest));
-            top[strlen(m->dest) + 3] = ':';
-            top[strlen(m->dest) + 4] = '=';
-
             strcpy(bot, "{         \x01MOV\x02}");
-            memcpy(bot+2, m->src, strlen(m->src));
+            if (strlen(m->src) >= (POS_WIDTH - 9)) {
+                memcpy(bot + 1, m->src, 3);
+                memset(bot + 4, '.', 3);
+                memcpy(bot + 7, m->src + strlen(m->src) - 2, 2);
+            } else {
+                memcpy(bot + 2, m->src, strlen(m->src));
+            }
 
             CenterWithSpaces(*cx, *cy, top, poweredAfter, FALSE);
             CenterWithWires(*cx, *cy, bot, poweredBefore, poweredAfter);
@@ -699,18 +705,28 @@ cmp:
                 l2 = 2 + 1 + strlen(leaf->d.cmp.op2);
                 lmax = max(l1, l2);
 
-                if(lmax < POS_WIDTH) {
-                    memset(s1, ' ', sizeof(s1));
-                    s1[0] = '[';
-                    s1[lmax-1] = ']';
-                    s1[lmax] = '\0';
-                    strcpy(s2, s1);
-                    memcpy(s1+1, leaf->d.cmp.op1, strlen(leaf->d.cmp.op1));
-                    memcpy(s1+strlen(leaf->d.cmp.op1)+2, s, strlen(s));
-                    memcpy(s2+2, leaf->d.cmp.op2, strlen(leaf->d.cmp.op2));
+                memset(s1, ' ', sizeof(s1));
+                s1[0] = '[';
+                int lcmp = lmax < POS_WIDTH ? lmax : POS_WIDTH;
+                s1[lcmp - 1] = ']';
+                s1[lcmp] = '\0';
+                strcpy(s2, s1);
+
+                if(l1 >= POS_WIDTH) {
+                    memcpy(s1 + 1, leaf->d.cmp.op1, 3);
+                    memset(s1 + 4, '.', 3);
+                    memcpy(s1 + 7, leaf->d.cmp.op1 + strlen(leaf->d.cmp.op1) - 3, 3);
+                    memcpy(s1 + 9 + 2, s, strlen(s));
                 } else {
-                    strcpy(s1, "");
-                    strcpy(s2, TOO_LONG);
+                    memcpy(s1 + 1, leaf->d.cmp.op1, strlen(leaf->d.cmp.op1));
+                    memcpy(s1 + strlen(leaf->d.cmp.op1) + 2, s, strlen(s));
+                }
+                if(l2 >= POS_WIDTH) {
+                    memcpy(s2 + 1, leaf->d.cmp.op2, 3);
+                    memset(s2 + 4, '.', 3);
+                    memcpy(s2 + 7, leaf->d.cmp.op2 + strlen(leaf->d.cmp.op2) - 3, 3);
+                } else {
+                    memcpy(s2 + 2, leaf->d.cmp.op2, strlen(leaf->d.cmp.op2));
                 }
 
                 CenterWithSpaces(*cx, *cy, s1, poweredAfter, FALSE);
